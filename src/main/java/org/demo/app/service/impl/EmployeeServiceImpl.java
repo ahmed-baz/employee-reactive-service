@@ -3,15 +3,18 @@ package org.demo.app.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.demo.app.dto.EmployeeDto;
+import org.demo.app.exception.JuniorEmployeeException;
 import org.demo.app.mapper.EmployeeMapper;
 import org.demo.app.model.Employee;
 import org.demo.app.repo.EmployeeRepo;
 import org.demo.app.service.EmployeeService;
+import org.demo.app.subscriper.EmployeeSubscriber;
 import org.demo.app.util.EmployeeUtil;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
@@ -26,10 +29,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Flux<Employee> createRandomList() {
-        return Flux
-                .fromStream(EmployeeUtil.getEmployeeList(10).stream())
-                .doOnNext(employee -> log.info("{}", employee.getId()))
-                .delayElements(Duration.ofMillis(200));
+        Flux<Employee> flux = Flux
+                .fromIterable(EmployeeUtil.getEmployeeList(5))
+                .doOnNext(employee -> {
+                    if (employee.getSalary().compareTo(new BigDecimal(20_000)) <= 0) {
+                        throw new JuniorEmployeeException("employee salary is less than 10K");
+                    }
+                })
+                .onErrorContinue(JuniorEmployeeException.class, (e, o) ->
+                        log.error("{} with id {} and salary {}", e.getMessage(), ((Employee) o).getId(), ((Employee) o).getSalary()))
+                .delayElements(Duration.ofSeconds(1));
+
+        flux.subscribe(new EmployeeSubscriber());
+        return flux;
     }
 
     @Override
