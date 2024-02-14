@@ -60,13 +60,12 @@ public class EmployeeUtil {
         return rand.nextInt(50000);
     }
 
-    private Date getRandomDate() {
+    private LocalDate getRandomDate() {
         Random random = new Random();
         int minDay = (int) LocalDate.of(2015, 1, 1).toEpochDay();
         int maxDay = (int) LocalDate.now().toEpochDay();
         long randomDay = random.nextInt(maxDay - minDay) + minDay;
-        LocalDate localDate = LocalDate.ofEpochDay(randomDay);
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return LocalDate.ofEpochDay(randomDay);
     }
 
 }

@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -23,7 +24,7 @@ public class Employee {
     private String email;
     private BigDecimal salary;
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date joinDate;
+    private LocalDate joinDate;
 
 }
 
