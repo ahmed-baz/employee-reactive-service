@@ -63,7 +63,7 @@ public class EmployeeUtil {
     private Date getRandomDate() {
         Random random = new Random();
         int minDay = (int) LocalDate.of(2015, 1, 1).toEpochDay();
-        int maxDay = (int) LocalDate.of(2023, 1, 1).toEpochDay();
+        int maxDay = (int) LocalDate.now().toEpochDay();
         long randomDay = random.nextInt(maxDay - minDay) + minDay;
         LocalDate localDate = LocalDate.ofEpochDay(randomDay);
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
