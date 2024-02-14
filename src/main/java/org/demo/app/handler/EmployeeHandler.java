@@ -26,6 +26,11 @@ public class EmployeeHandler {
                 .body(employeeService.createRandomList(Integer.parseInt(size)), Employee.class);
     }
 
+    public Mono<ServerResponse> getRandomList() {
+        return ok().contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(employeeService.createRandomList(), Employee.class);
+    }
+
     public Mono<ServerResponse> getAll(ServerRequest request) {
         return ok().contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(employeeService.findList(), Employee.class);

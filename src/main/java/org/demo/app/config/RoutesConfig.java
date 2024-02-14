@@ -16,6 +16,7 @@ public class RoutesConfig {
     public RouterFunction<ServerResponse> router(EmployeeHandler handler) {
         return route()
                 .GET("api/v1/employee/create/{size}", handler::getRandomList)
+                .GET("api/v1/employee/create", request -> handler.getRandomList())
                 .GET("api/v1/employee", handler::getAll)
                 .GET("api/v1/employee/count", handler::count)
                 .GET("api/v1/employee/{id}", handler::getOne)

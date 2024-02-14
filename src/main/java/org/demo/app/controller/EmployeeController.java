@@ -27,6 +27,11 @@ public class EmployeeController {
         return employeeService.createRandomList(size);
     }
 
+    @GetMapping(value = "/create", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Employee> createRandomList() {
+        return employeeService.createRandomList();
+    }
+
     @GetMapping("/{id}")
     public Mono<Employee> findById(@PathVariable Long id) {
         return employeeService.findById(id);

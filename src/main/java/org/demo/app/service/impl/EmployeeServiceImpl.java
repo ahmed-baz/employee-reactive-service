@@ -1,6 +1,7 @@
 package org.demo.app.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.demo.app.dto.EmployeeDto;
 import org.demo.app.mapper.EmployeeMapper;
 import org.demo.app.model.Employee;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepo employeeRepo;
@@ -26,6 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Flux<Employee> createRandomList() {
         return Flux
                 .fromStream(EmployeeUtil.getEmployeeList(10).stream())
+                .doOnNext(employee -> log.info("{}", employee.getId()))
                 .delayElements(Duration.ofMillis(200));
     }
 
