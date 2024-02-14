@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <groupId>org.demo.app</groupId>
-    <artifactId>employee-reactive-app</artifactId>
+    <artifactId>employee-reactive-service</artifactId>
     <version>1.0</version>
     <name>employee-reactive-app</name>
     <description>employee reactive app</description>
