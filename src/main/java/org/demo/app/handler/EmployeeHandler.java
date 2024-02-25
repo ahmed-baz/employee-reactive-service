@@ -31,6 +31,13 @@ public class EmployeeHandler {
                 .body(employeeService.createRandomList(), Employee.class);
     }
 
+    public Mono<ServerResponse> createList(ServerRequest request) {
+        String size = request.pathVariable("size");
+        log.info("size  = {} ", size);
+        return ok().contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(employeeService.createStaticList(Integer.parseInt(size)), Employee.class);
+    }
+
     public Mono<ServerResponse> getAll(ServerRequest request) {
         return ok().contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(employeeService.findList(), Employee.class);

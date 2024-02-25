@@ -1,6 +1,7 @@
 package org.demo.app.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.demo.app.dto.EmployeeDto;
 import org.demo.app.exception.JuniorEmployeeException;
@@ -18,6 +19,8 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
+
+import static java.lang.Thread.sleep;
 
 @Service
 @RequiredArgsConstructor
@@ -47,10 +50,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Flux<Employee> createRandomList(int size) {
         List<Employee> employeeList = EmployeeUtil.getEmployeeList(size);
-        Flux<Employee> employeeFlux = employeeRepo.saveAll(employeeList);
         return Flux
                 .fromStream(employeeList.stream())
                 .delayElements(Duration.ofMillis(200));
+    }
+
+    @Override
+    public Flux<Employee> createStaticList(int size) {
+        Flux<Employee> empFlux = Flux.create(flux -> {
+            for (int i = 0; i < size; i++) {
+                flux.next(EmployeeUtil.createRandomEmployee());
+                threadSleep(1000);
+            }
+            flux.complete();
+        });
+        empFlux.subscribe(new EmployeeSubscriber());
+        empFlux.log().subscribe(s -> log.info("employee mail {}", s.getEmail()));
+        return empFlux;
     }
 
     @Override
@@ -81,5 +97,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Mono<Void> delete(Long id) {
         return employeeRepo.deleteById(id);
+    }
+
+    @SneakyThrows
+    private void threadSleep(long time) {
+        sleep(time);
     }
 }

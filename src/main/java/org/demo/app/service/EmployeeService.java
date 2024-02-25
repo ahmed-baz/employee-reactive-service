@@ -12,6 +12,8 @@ public interface EmployeeService {
 
     Flux<Employee> createRandomList(int size);
 
+    Flux<Employee> createStaticList(int size);
+
     Flux<Employee> findList();
 
     Mono<Employee> findById(Long id);
