@@ -54,10 +54,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .fromStream(employeeList.stream())
                 .delayElements(Duration.ofMillis(200));
         return employeeFlux
-                .log()
                 .distinct()
                 //.distinctUntilChanged()
-                .filter(employee -> employee.getSalary().compareTo(new BigDecimal(20000)) > 0);
+                .filter(employee -> employee.getSalary().compareTo(new BigDecimal(20000)) > 0)
+                //.map(employee -> Employee.builder().firstName(employee.getFirstName()).salary(employee.getSalary()).build())
+                .log();
     }
 
     @Override

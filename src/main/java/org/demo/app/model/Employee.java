@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Table("EMPLOYEE")
+@ToString
 public class Employee {
 
     @Id
