@@ -53,7 +53,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         Flux<Employee> employeeFlux = Flux
                 .fromStream(employeeList.stream())
                 .delayElements(Duration.ofMillis(200));
-        return employeeFlux.filter(employee -> employee.getSalary().compareTo(new BigDecimal(20000)) > 0);
+        return employeeFlux
+                .log()
+                .distinct()
+                //.distinctUntilChanged()
+                .filter(employee -> employee.getSalary().compareTo(new BigDecimal(20000)) > 0);
     }
 
     @Override
