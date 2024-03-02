@@ -50,9 +50,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Flux<Employee> createRandomList(int size) {
         List<Employee> employeeList = EmployeeUtil.getEmployeeList(size);
-        return Flux
+        Flux<Employee> employeeFlux = Flux
                 .fromStream(employeeList.stream())
                 .delayElements(Duration.ofMillis(200));
+        return employeeFlux.filter(employee -> employee.getSalary().compareTo(new BigDecimal(20000)) > 0);
     }
 
     @Override
