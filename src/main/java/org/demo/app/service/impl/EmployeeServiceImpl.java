@@ -47,18 +47,40 @@ public class EmployeeServiceImpl implements EmployeeService {
         return flux;
     }
 
+    // 1. log
+    // 2. distinct & distinctUntilChanged
+    // 3. filter, map,m and flatMap
+    // 4. collect
+    // 5. doOnEach and doOnNext
+    // 6. concatWith and thenMany
+    // 7. zipWith
     @Override
     public Flux<Employee> createRandomList(int size) {
-        List<Employee> employeeList = EmployeeUtil.getEmployeeList(size);
-        Flux<Employee> employeeFlux = Flux
-                .fromStream(employeeList.stream())
+        List<Employee> employeeList1 = EmployeeUtil.getEmployeeList(size);
+        List<Employee> employeeList2 = EmployeeUtil.getEmployeeList(size);
+        Flux<Employee> employeeFlux1 = Flux
+                .fromStream(employeeList1.stream())
                 .delayElements(Duration.ofMillis(200));
-        return employeeFlux
+        Flux<Employee> employeeFlux2 = Flux
+                .fromStream(employeeList2.stream())
+                .delayElements(Duration.ofMillis(200));
+        return employeeFlux1
                 .distinct()
                 //.distinctUntilChanged()
                 .filter(employee -> employee.getSalary().compareTo(new BigDecimal(20000)) > 0)
                 //.map(employee -> Employee.builder().firstName(employee.getFirstName()).salary(employee.getSalary()).build())
+                .doOnEach(employee -> {
+                    if (employee.hasValue()) {
+                        sendMail(employee.get().getEmail());
+                    }
+                })
+                .concatWith(employeeFlux2)
                 .log();
+    }
+
+
+    private void sendMail(String email) {
+        log.info("send email to {}", email);
     }
 
     @Override
