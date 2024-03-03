@@ -38,7 +38,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Mono<Employee> findById(@PathVariable Long id) {
+    public Mono<Employee> findById(@PathVariable String id) {
         return employeeService.findById(id);
     }
 
@@ -58,7 +58,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public Mono<Void> deleteEmployee(@PathVariable Long id) {
+    public Mono<Void> deleteEmployee(@PathVariable String id) {
         return employeeService.delete(id);
     }
 }

@@ -4,7 +4,7 @@ package org.demo.app.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table("EMPLOYEE")
 @ToString
+@Document(collection = "employee")
 public class Employee {
 
     @Id

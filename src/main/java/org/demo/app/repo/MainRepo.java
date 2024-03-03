@@ -1,8 +1,8 @@
 package org.demo.app.repo;
 
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 @NoRepositoryBean
-public interface MainRepo<E> extends ReactiveCrudRepository<E, Long> {
+public interface MainRepo<E> extends ReactiveMongoRepository<E, String> {
 }

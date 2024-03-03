@@ -16,11 +16,11 @@ public interface EmployeeService {
 
     Flux<Employee> findList();
 
-    Mono<Employee> findById(Long id);
+    Mono<Employee> findById(String id);
 
     Mono<Long> count();
 
     Mono<Employee> createOrUpdate(EmployeeDto employeeDto);
 
-    Mono<Void> delete(Long id);
+    Mono<Void> delete(String id);
 }

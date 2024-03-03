@@ -85,6 +85,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Flux<Employee> createStaticList(int size) {
+        List<Employee> employeeList = EmployeeUtil.getEmployeeList(size);
+        return employeeRepo.saveAll(employeeList);
+    }
+
+    private Flux<Employee> saveStaticList(int size) {
         Flux<Employee> empFlux = Flux.create(flux -> {
             for (int i = 0; i < size; i++) {
                 flux.next(EmployeeUtil.createRandomEmployee());
@@ -103,7 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Mono<Employee> findById(Long id) {
+    public Mono<Employee> findById(String id) {
         return employeeRepo.findById(id);
     }
 
@@ -118,12 +123,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeDto.setId(UUID.randomUUID().toString());
         }
         Employee employee = employeeMapper.dtoToEntity(employeeDto);
-        employeeRepo.save(employee);
-        return Mono.just(employee);
+        return employeeRepo.save(employee);
     }
 
     @Override
-    public Mono<Void> delete(Long id) {
+    public Mono<Void> delete(String id) {
         return employeeRepo.deleteById(id);
     }
 

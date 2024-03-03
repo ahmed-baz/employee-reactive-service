@@ -44,8 +44,7 @@ public class EmployeeHandler {
     }
 
     public Mono<ServerResponse> getOne(ServerRequest request) {
-        String idStr = request.pathVariable("id");
-        Long id = Long.parseLong(idStr);
+        String id = request.pathVariable("id");
         return ok().contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(employeeService.findById(id), Employee.class);
     }
