@@ -61,4 +61,9 @@ public class EmployeeController {
     public Mono<Void> deleteEmployee(@PathVariable String id) {
         return employeeService.delete(id);
     }
+
+    @DeleteMapping
+    public Mono<Void> deleteAllEmployee() {
+        return employeeService.deleteAll();
+    }
 }

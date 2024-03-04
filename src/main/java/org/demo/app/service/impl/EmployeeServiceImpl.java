@@ -131,6 +131,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepo.deleteById(id);
     }
 
+    @Override
+    public Mono<Void> deleteAll() {
+        return employeeRepo.deleteAll();
+    }
+
     @SneakyThrows
     private void threadSleep(long time) {
         sleep(time);

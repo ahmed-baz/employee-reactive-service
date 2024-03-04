@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @ToString
-@Document(collection = "employee")
+@Document(collection = "employees")
 public class Employee {
 
     @Id
