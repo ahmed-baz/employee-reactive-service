@@ -26,6 +26,8 @@ public class Employee {
     private BigDecimal salary;
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate joinDate;
+    @JsonFormat(pattern = "yyyy/MM/dd")
+    private LocalDate birthDate;
 
 }
 
